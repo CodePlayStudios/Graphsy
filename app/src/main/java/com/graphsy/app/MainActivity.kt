@@ -10,6 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.graphsy.app.ui.theme.GraphsyTheme
+import com.graphsy.compose.common.StartAngle
+import com.graphsy.compose.config.DonutChartConfiguration
 import com.graphsy.compose.donut.DonutChart
 import com.graphsy.compose.models.DonutData
 import com.graphsy.compose.models.DonutSlice
@@ -24,7 +26,20 @@ class MainActivity : ComponentActivity() {
                 ) {
                     DonutChart(
                         modifier = Modifier.fillMaxSize(),
-                        data = arrayOf(DATA)
+                        data = set1,
+                        configuration = DonutChartConfiguration().copy(
+                            gapWidthDegrees = StartAngle.CustomAngle(1f),
+                            childDonutWidthFactor = 50f
+                        )
+                    )
+                    DonutChart(
+                        modifier = Modifier.fillMaxSize(),
+                        data = set2,
+                        configuration = DonutChartConfiguration().copy(
+                            gapWidthDegrees = StartAngle.CustomAngle(1f),
+                            gapAngleDegrees = StartAngle.RightAngle,
+                            childDonutWidthFactor = 50f
+                        )
                     )
                 }
             }
@@ -32,26 +47,95 @@ class MainActivity : ComponentActivity() {
     }
 
     companion object {
-        val DATA = DonutData(
-            masterSlice = DonutSlice.MasterSlice(
-                circumferencePercentage = 0.5f,
-                value = 8f,
-                color = Color.Gray
+
+        val set1 = arrayOf(
+            DonutData(
+                masterSlice = DonutSlice.MasterSlice(
+                    circumferencePercentage = 0.49f,
+                    value = 8f,
+                    color = Color.LightGray
+                ),
+                sections = listOf(
+                    DonutSlice.SectionSlice(
+                        value = 1.3f,
+                        color = Color.Green
+                    ),
+                    DonutSlice.SectionSlice(
+                        value = 1.2f,
+                        color = Color.Magenta
+                    ),
+                    DonutSlice.SectionSlice(
+                        value = 3.21f,
+                        color = Color.Red
+                    )
+                )
             ),
-            sections = listOf(
-                DonutSlice.SectionSlice(
-                    value = 1.3f,
-                    color = Color.Green
+            DonutData(
+                masterSlice = DonutSlice.MasterSlice(
+                    circumferencePercentage = 0.49f,
+                    value = 8f,
+                    color = Color.LightGray
                 ),
-                DonutSlice.SectionSlice(
-                    value = 1.2f,
-                    color = Color.Magenta
-                ),
-                DonutSlice.SectionSlice(
-                    value = 3.21f,
-                    color = Color.Red
+                sections = listOf(
+                    DonutSlice.SectionSlice(
+                        value = 1.3f,
+                        color = Color.Yellow
+                    ),
+                    DonutSlice.SectionSlice(
+                        value = 1.2f,
+                        color = Color.Blue
+                    ),
+                    DonutSlice.SectionSlice(
+                        value = 3.21f,
+                        color = Color.Black
+                    )
                 )
             )
         )
+        val set2 = arrayOf(
+            DonutData(
+                masterSlice = DonutSlice.MasterSlice(
+                    circumferencePercentage = 0.49f,
+                    value = 8f,
+                    color = Color.LightGray
+                ),
+                sections = listOf(
+                    DonutSlice.SectionSlice(
+                        value = 1.3f,
+                        color = Color.Green
+                    ),
+                    DonutSlice.SectionSlice(
+                        value = 1.2f,
+                        color = Color.Magenta
+                    ),
+                    DonutSlice.SectionSlice(
+                        value = 3.21f,
+                        color = Color.Red
+                    )
+                )
+            ),
+            DonutData(
+                masterSlice = DonutSlice.MasterSlice(
+                    circumferencePercentage = 0.49f,
+                    value = 8f,
+                    color = Color.LightGray
+                ),
+                sections = listOf(
+                    DonutSlice.SectionSlice(
+                        value = 1.3f,
+                        color = Color.Yellow
+                    ),
+                    DonutSlice.SectionSlice(
+                        value = 1.2f,
+                        color = Color.Blue
+                    ),
+                    DonutSlice.SectionSlice(
+                        value = 3.21f,
+                        color = Color.Black
+                    )
+                )
+            )
+        )
+
     }
 }

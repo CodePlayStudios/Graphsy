@@ -1,6 +1,7 @@
 package com.graphsy.compose.config
 
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.graphsy.compose.common.StartAngle
 
 
@@ -13,14 +14,13 @@ import com.graphsy.compose.common.StartAngle
  * @param gapAngleDegrees Degree used as a gap start point in donut
  * @param isLabelsEnabled Whether to show the label for each section
  * @param isAnimationEnabled Whether to show initial draw animation
- * @param backgroundLineColor donut background LineColor
  */
 data class DonutChartConfiguration(
-    val innerDonutSpacing: Float = 1f,
+    val innerDonutSpacing: Dp = 35.dp,
     val strokeWidth: Float = 100f,
-    val gapWidthDegrees: StartAngle = StartAngle.CustomAngle(angle = 0.2f),
+    val childDonutWidthFactor: Float = 0f,
+    val gapWidthDegrees: StartAngle = StartAngle.CustomAngle(angle = 0f),
     val gapAngleDegrees: StartAngle = StartAngle.ReflexAngle,
     val isLabelsEnabled: Boolean = true,
-    val isAnimationEnabled: Boolean = true,
-    val backgroundLineColor: Color = Color.Gray
+    val isAnimationEnabled: Boolean = true
 )

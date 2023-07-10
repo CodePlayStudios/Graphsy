@@ -4,7 +4,7 @@ import com.graphsy.compose.common.DonutChartUtils.sumByFloat
 
 data class DonutData(
     val masterSlice: DonutSlice.MasterSlice,
-    val sections: List<DonutSlice.SectionSlice>,
+    val sections: List<DonutSlice.SectionSlice>
 ) {
     /**
      * Sum of all [DonutSlice.value]

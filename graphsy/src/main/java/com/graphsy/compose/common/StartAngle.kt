@@ -31,7 +31,7 @@ sealed class StartAngle(open val angle: Float) {
      */
     data class CustomAngle(override val angle: Float) : StartAngle(angle) {
         init {
-            require(angle in 0.0f..1.0f) { "angle must be within the range of 0f to 360f" }
+            require(angle in 0.0f..360.0f) { "angle must be within the range of 0f to 360f" }
         }
     }
 }
