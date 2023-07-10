@@ -3,46 +3,55 @@ package com.graphsy.app
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.layout.size
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import com.graphsy.app.ui.theme.GraphsyTheme
-import com.graphsy.compose.components.PieChart
+import com.graphsy.compose.donut.DonutChart
+import com.graphsy.compose.models.DonutData
+import com.graphsy.compose.models.DonutSlice
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             GraphsyTheme {
-                // A surface containxer using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                Box(
+                    modifier = Modifier.size(width = 240.dp, height = 240.dp)
                 ) {
-                    Greeting("Android")
+                    DonutChart(
+                        modifier = Modifier.fillMaxSize(),
+                        data = arrayOf(DATA)
+                    )
                 }
             }
         }
     }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    PieChart()
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    GraphsyTheme {
-        Greeting("Android")
+    companion object {
+        val DATA = DonutData(
+            masterSlice = DonutSlice.MasterSlice(
+                circumferencePercentage = 0.5f,
+                value = 8f,
+                color = Color.Gray
+            ),
+            sections = listOf(
+                DonutSlice.SectionSlice(
+                    value = 1.3f,
+                    color = Color.Green
+                ),
+                DonutSlice.SectionSlice(
+                    value = 1.2f,
+                    color = Color.Magenta
+                ),
+                DonutSlice.SectionSlice(
+                    value = 3.21f,
+                    color = Color.Red
+                )
+            )
+        )
     }
 }
