@@ -1,5 +1,6 @@
 package com.graphsy.compose.donut
 
+import android.graphics.Path.Direction
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -89,10 +90,11 @@ private fun DrawDonut(
         drawDonutSegment(
             width,
             strokeCap,
-            donutPathData.masterPathData
+            donutPathData.masterPathData,
+            config.direction
         )
         donutPathData.entriesPathData.forEach { pathData ->
-            drawDonutSegment(width, strokeCap, pathData)
+            drawDonutSegment(width, strokeCap, pathData, config.direction)
         }
     })
 }
@@ -100,12 +102,14 @@ private fun DrawDonut(
 private fun DrawScope.drawDonutSegment(
     strokeWidth: Float,
     strokeCap: StrokeCap,
-    data: DonutPathDataEntry
+    data: DonutPathDataEntry,
+    direction: Direction
 ) {
+    val angle = if (direction == Direction.CCW) -1 else 1
     drawArc(
         color = data.color,
-        startAngle = data.startAngle,
-        sweepAngle = data.sweepAngle,
+        startAngle = data.startAngle * angle,
+        sweepAngle = data.sweepAngle * angle,
         useCenter = false,
         topLeft = Offset.Zero + Offset(
             x = strokeWidth / 2f,

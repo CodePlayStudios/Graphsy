@@ -1,5 +1,6 @@
 package com.graphsy.compose.config
 
+import android.graphics.Path.Direction
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.graphsy.compose.common.StartAngle
@@ -22,5 +23,6 @@ data class DonutChartConfiguration(
     val gapWidthDegrees: StartAngle = StartAngle.CustomAngle(angle = 0f),
     val gapAngleDegrees: StartAngle = StartAngle.ReflexAngle,
     val isLabelsEnabled: Boolean = true,
-    val isAnimationEnabled: Boolean = true
+    val isAnimationEnabled: Boolean = true,
+    val direction: Direction = Direction.CW
 )

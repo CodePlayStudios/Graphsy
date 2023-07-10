@@ -1,5 +1,6 @@
 package com.graphsy.app
 
+import android.graphics.Path
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -38,7 +39,8 @@ class MainActivity : ComponentActivity() {
                         configuration = DonutChartConfiguration().copy(
                             gapWidthDegrees = StartAngle.CustomAngle(1f),
                             gapAngleDegrees = StartAngle.RightAngle,
-                            childDonutWidthFactor = 50f
+                            childDonutWidthFactor = 50f,
+                            direction = Path.Direction.CCW
                         )
                     )
                 }
