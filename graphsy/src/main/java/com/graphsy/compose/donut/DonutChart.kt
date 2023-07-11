@@ -10,11 +10,11 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import com.graphsy.compose.common.DonutChartUtils
-import com.graphsy.compose.common.DonutChartUtils.sumByFloat
 import com.graphsy.compose.config.DonutChartConfiguration
 import com.graphsy.compose.models.DonutData
 import com.graphsy.compose.models.DonutPathData
 import com.graphsy.compose.models.DonutPathDataEntry
+import kotlin.math.min
 
 
 @Composable
@@ -29,32 +29,14 @@ fun DonutChart(
                 item,
                 configuration
             )
-            val (offset, size) = if (index > 0) {
-                val newSize = Size(
-                    size.width / (index + 1),
-                    size.height / (index + 1),
-                )
-                Pair(
-                    Offset.Zero + Offset(
-                        x = (size.width - newSize.width).div(2f),
-                        y = (size.height - newSize.height).div(2f)
-                    ),
-                    newSize
-                )
-
-            } else {
-                Pair(
-                    Offset.Zero + Offset(
-                        x = item.masterSlice.strokeWidth.div(2f),
-                        y = item.masterSlice.strokeWidth.div(2f)
-                    ),
-                    Size(
-                        (size.width - item.masterSlice.strokeWidth),
-                        (size.height - item.masterSlice.strokeWidth)
-                    )
-                )
-            }
-
+            val size = Size(
+                min(size.width / index.inc(), size.width - item.masterSlice.strokeWidth),
+                min(size.height / index.inc(), size.height - item.masterSlice.strokeWidth),
+            )
+            val offset = Offset.Zero + Offset(
+                x = (this.size.width - size.width).div(2f),
+                y = (this.size.height - size.height).div(2f)
+            )
             drawDonutSegment(
                 donutPathData.masterPathData,
                 configuration.direction,

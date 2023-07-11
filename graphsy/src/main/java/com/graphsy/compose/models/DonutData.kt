@@ -9,6 +9,6 @@ data class DonutData(
     /**
      * Sum of all [DonutSlice.value]
      */
-    val sectionsSum: Float get() = sections.sumByFloat { it.value }
+    internal val sectionsSum: Float get() = sections.sumByFloat { it.value }
 }
 

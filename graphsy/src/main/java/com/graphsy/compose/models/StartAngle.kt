@@ -1,4 +1,4 @@
-package com.graphsy.compose.common
+package com.graphsy.compose.models
 
 import androidx.compose.runtime.Immutable
 

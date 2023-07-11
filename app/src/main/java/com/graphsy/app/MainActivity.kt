@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.graphsy.app.ui.theme.GraphsyTheme
-import com.graphsy.compose.common.StartAngle
+import com.graphsy.compose.models.StartAngle
 import com.graphsy.compose.config.DonutChartConfiguration
 import com.graphsy.compose.donut.DonutChart
 import com.graphsy.compose.models.DonutData

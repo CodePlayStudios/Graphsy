@@ -6,8 +6,8 @@ import com.graphsy.compose.models.DonutPathDataEntry
 import com.graphsy.compose.models.SectionsPathData
 import kotlin.math.max
 
-object DonutChartUtils {
-    internal fun calculatePathData(
+internal object DonutChartUtils {
+    fun calculatePathData(
         data: DonutData,
         configuration: DonutChartConfiguration
     ): List<DonutPathDataEntry> {
@@ -30,7 +30,7 @@ object DonutChartUtils {
         )
     }
 
-    internal inline fun <T> Iterable<T>.sumByFloat(selector: (T) -> Float): Float {
+    inline fun <T> Iterable<T>.sumByFloat(selector: (T) -> Float): Float {
         var sum = 0f
         for (element in this) {
             sum += selector(element)

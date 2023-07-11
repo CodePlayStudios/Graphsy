@@ -14,6 +14,7 @@ sealed interface DonutSlice {
     ) : DonutSlice {
         init {
             require(circumferencePercentage in 0.0f..1.0f) { "circumferencePercentage must be within the range of 0f to 1f" }
+            require(strokeWidth in 1f..100.0f) { "strokeWidth must be within the range of 1f to 100f" }
         }
     }
 
