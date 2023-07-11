@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,7 +26,7 @@ class MainActivity : ComponentActivity() {
             GraphsyTheme {
                 Box(
                     modifier = Modifier
-                        .size(width = 240.dp, height = 240.dp),
+                        .size(width = 240.dp, height = 240.dp).padding(12.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     DonutChart(
@@ -51,7 +52,7 @@ class MainActivity : ComponentActivity() {
 
     companion object {
 
-        val set1 = arrayOf(
+        val set1 = listOf(
             DonutData(
                 masterSlice = DonutSlice.MasterSlice(
                     circumferencePercentage = 0.49f,
@@ -96,7 +97,7 @@ class MainActivity : ComponentActivity() {
                 )
             )
         )
-        val set2 = arrayOf(
+        val set2 = listOf(
             DonutData(
                 masterSlice = DonutSlice.MasterSlice(
                     circumferencePercentage = 0.49f,
@@ -150,15 +151,15 @@ class MainActivity : ComponentActivity() {
                 sections = listOf(
                     DonutSlice.SectionSlice(
                         value = 1.3f,
-                        color = Color.Yellow
+                        color = Color.Cyan
                     ),
                     DonutSlice.SectionSlice(
                         value = 1.2f,
-                        color = Color.Blue
+                        color = Color(0xFFc4ec74)
                     ),
                     DonutSlice.SectionSlice(
                         value = 3.21f,
-                        color = Color.Black
+                        color = Color(0xFF92dc7e)
                     )
                 )
             )
