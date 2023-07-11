@@ -5,5 +5,6 @@ internal data class SectionsPathData(
     val masterSegmentAmount: Float,
     val masterSegmentAngle: Float,
     val masterProgress: Float,
+    val masterStrokeWidth: Float,
     val sections: List<DonutSlice.SectionSlice>
 )

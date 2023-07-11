@@ -15,6 +15,8 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.graphsy.compose.common.DonutChartUtils
 import com.graphsy.compose.config.DonutChartConfiguration
 import com.graphsy.compose.models.DonutData
@@ -28,14 +30,15 @@ fun DonutChart(
     modifier: Modifier = Modifier,
     configuration: DonutChartConfiguration = DonutChartConfiguration()
 ) {
-
-    data.toList().forEachIndexed { index, item ->
+    var usedWidth = 0f
+    data.forEachIndexed { index, item ->
         DrawDonut(
             model = item,
             config = configuration,
             modifier = modifier,
-            donutIndex = index
+            usedWidth = usedWidth
         )
+        usedWidth += item.masterSlice.strokeWidth / 2
     }
 }
 
@@ -44,7 +47,7 @@ private fun DrawDonut(
     model: DonutData,
     config: DonutChartConfiguration,
     modifier: Modifier,
-    donutIndex: Int
+    usedWidth: Float
 ) {
     val masterProgress = model.masterSlice.circumferencePercentage
     val gapAngleDegrees = config.gapAngleDegrees.angle
@@ -59,7 +62,8 @@ private fun DrawDonut(
     val masterPathData = DonutPathDataEntry(
         color = backgroundLineColor,
         startAngle = startAngle,
-        sweepAngle = masterSegmentAngle
+        sweepAngle = masterSegmentAngle,
+        strokeWidth = model.masterSlice.strokeWidth
     )
     val sectionsPathData = DonutChartUtils.calculatePathData(
         data = model,
@@ -69,7 +73,8 @@ private fun DrawDonut(
         DonutPathDataEntry(
             color = item.color,
             startAngle = sectionsPathData[index].startAngle,
-            sweepAngle = sectionsPathData[index].sweepAngle
+            sweepAngle = sectionsPathData[index].sweepAngle,
+            strokeWidth = model.masterSlice.strokeWidth
         )
     }
 
@@ -80,27 +85,24 @@ private fun DrawDonut(
 
     Canvas(modifier = modifier
         .padding(
-            config.innerDonutSpacing * donutIndex
+            usedWidth.dp
         )
         .onSizeChanged { size ->
             chartWidth = size.width.toFloat()
             chartHeight = size.height.toFloat()
         }, onDraw = {
-        val width = config.strokeWidth - config.childDonutWidthFactor * donutIndex
         drawDonutSegment(
-            width,
             strokeCap,
             donutPathData.masterPathData,
             config.direction
         )
         donutPathData.entriesPathData.forEach { pathData ->
-            drawDonutSegment(width, strokeCap, pathData, config.direction)
+            drawDonutSegment(strokeCap, pathData, config.direction)
         }
     })
 }
 
 private fun DrawScope.drawDonutSegment(
-    strokeWidth: Float,
     strokeCap: StrokeCap,
     data: DonutPathDataEntry,
     direction: Direction
@@ -112,15 +114,15 @@ private fun DrawScope.drawDonutSegment(
         sweepAngle = data.sweepAngle * angle,
         useCenter = false,
         topLeft = Offset.Zero + Offset(
-            x = strokeWidth / 2f,
-            y = strokeWidth / 2f
+            x = data.strokeWidth / 2f,
+            y = data.strokeWidth / 2f
         ),
         size = Size(
-            size.width - strokeWidth,
-            size.height - strokeWidth
+            size.width - data.strokeWidth,
+            size.height - data.strokeWidth
         ),
         style = Stroke(
-            width = strokeWidth,
+            width = data.strokeWidth,
             cap = strokeCap
         )
     )

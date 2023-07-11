@@ -8,8 +8,9 @@ sealed interface DonutSlice {
 
     data class MasterSlice(
         val circumferencePercentage: Float,
+        val strokeWidth: Float = 100f,
         override val value: Float,
-        override val color: Color
+        override val color: Color,
     ) : DonutSlice {
         init {
             require(circumferencePercentage in 0.0f..1.0f) { "circumferencePercentage must be within the range of 0f to 1f" }

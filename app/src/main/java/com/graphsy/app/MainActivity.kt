@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -23,14 +24,15 @@ class MainActivity : ComponentActivity() {
         setContent {
             GraphsyTheme {
                 Box(
-                    modifier = Modifier.size(width = 240.dp, height = 240.dp)
+                    modifier = Modifier
+                        .size(width = 240.dp, height = 240.dp),
+                    contentAlignment = Alignment.Center
                 ) {
                     DonutChart(
                         modifier = Modifier.fillMaxSize(),
                         data = set1,
                         configuration = DonutChartConfiguration().copy(
-                            gapWidthDegrees = StartAngle.CustomAngle(1f),
-                            childDonutWidthFactor = 50f
+                            gapWidthDegrees = StartAngle.CustomAngle(1f)
                         )
                     )
                     DonutChart(
@@ -39,7 +41,6 @@ class MainActivity : ComponentActivity() {
                         configuration = DonutChartConfiguration().copy(
                             gapWidthDegrees = StartAngle.CustomAngle(1f),
                             gapAngleDegrees = StartAngle.RightAngle,
-                            childDonutWidthFactor = 50f,
                             direction = Path.Direction.CCW
                         )
                     )
@@ -75,6 +76,7 @@ class MainActivity : ComponentActivity() {
             DonutData(
                 masterSlice = DonutSlice.MasterSlice(
                     circumferencePercentage = 0.49f,
+                    strokeWidth = 50f,
                     value = 8f,
                     color = Color.LightGray
                 ),
@@ -119,6 +121,29 @@ class MainActivity : ComponentActivity() {
             DonutData(
                 masterSlice = DonutSlice.MasterSlice(
                     circumferencePercentage = 0.49f,
+                    strokeWidth = 50f,
+                    value = 8f,
+                    color = Color.LightGray
+                ),
+                sections = listOf(
+                    DonutSlice.SectionSlice(
+                        value = 1.3f,
+                        color = Color.Yellow
+                    ),
+                    DonutSlice.SectionSlice(
+                        value = 1.2f,
+                        color = Color.Blue
+                    ),
+                    DonutSlice.SectionSlice(
+                        value = 3.21f,
+                        color = Color.Black
+                    )
+                )
+            ),
+            DonutData(
+                masterSlice = DonutSlice.MasterSlice(
+                    circumferencePercentage = 0.49f,
+                    strokeWidth = 25f,
                     value = 8f,
                     color = Color.LightGray
                 ),

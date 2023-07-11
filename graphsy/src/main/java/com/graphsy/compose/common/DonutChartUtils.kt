@@ -24,6 +24,7 @@ object DonutChartUtils {
                 masterSegmentAmount = masterSegmentAmount,
                 masterSegmentAngle = masterSegmentAngle,
                 masterProgress = data.masterSlice.circumferencePercentage,
+                masterStrokeWidth = data.masterSlice.strokeWidth,
                 sections = data.sections
             )
         )
@@ -36,26 +37,29 @@ object DonutChartUtils {
         }
         return sum
     }
-    private fun createPathDataForSections(data: SectionsPathData): List<DonutPathDataEntry> = with(data) {
-        var angleAccumulator = startAngle
-        val entriesPathData = mutableListOf<DonutPathDataEntry>()
 
-        for (entry in sections) {
-            val entryAngle = if (masterSegmentAmount != 0f) {
-                masterSegmentAngle * (entry.value / masterSegmentAmount) * masterProgress
-            } else {
-                0f
+    private fun createPathDataForSections(data: SectionsPathData): List<DonutPathDataEntry> =
+        with(data) {
+            var angleAccumulator = startAngle
+            val entriesPathData = mutableListOf<DonutPathDataEntry>()
+
+            for (entry in sections) {
+                val entryAngle = if (masterSegmentAmount != 0f) {
+                    masterSegmentAngle * (entry.value / masterSegmentAmount) * masterProgress
+                } else {
+                    0f
+                }
+
+                entriesPathData += DonutPathDataEntry(
+                    color = entry.color,
+                    strokeWidth = data.masterStrokeWidth,
+                    startAngle = angleAccumulator,
+                    sweepAngle = entryAngle
+                )
+
+                angleAccumulator += entryAngle
             }
 
-            entriesPathData += DonutPathDataEntry(
-                color = entry.color,
-                startAngle = angleAccumulator,
-                sweepAngle = entryAngle
-            )
-
-            angleAccumulator += entryAngle
+            return entriesPathData
         }
-
-        return entriesPathData
-    }
 }
