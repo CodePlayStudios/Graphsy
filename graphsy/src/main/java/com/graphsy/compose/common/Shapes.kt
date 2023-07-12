@@ -12,6 +12,7 @@ fun DrawScope.verticalDottedLine(
 ) {
     val pathEffect =
         PathEffect.dashPathEffect(floatArrayOf(3f, 5f), 0f)
+
     drawLine(
         strokeWidth = strokeWidth,
         color = color,

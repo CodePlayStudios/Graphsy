@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -32,20 +33,21 @@ class MainActivity : ComponentActivity() {
             GraphsyTheme {
                 Box(
                     modifier = Modifier
-                        .size(width = 250.dp, height = 250.dp)
-                        .padding(16.dp),
+                        .fillMaxWidth()
+                        .padding(vertical = 24.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     DonutChart(
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier
+                            .size(width = 250.dp, height = 250.dp),
                         data = set1,
                         configuration = DonutChartConfiguration(
                             gapWidthDegrees = StartAngle.CustomAngle(3f)
                         )
                     )
-
                     DonutChart(
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier
+                            .size(width = 250.dp, height = 250.dp),
                         data = set2,
                         configuration = DonutChartConfiguration(
                             gapWidthDegrees = StartAngle.CustomAngle(3f),
@@ -56,6 +58,7 @@ class MainActivity : ComponentActivity() {
                             }
                         )
                     )
+
                 }
             }
         }
