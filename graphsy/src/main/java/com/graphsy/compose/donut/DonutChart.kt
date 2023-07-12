@@ -24,6 +24,7 @@ fun DonutChart(
     configuration: DonutChartConfiguration = DonutChartConfiguration()
 ) {
     Canvas(modifier = modifier) {
+        configuration.drawOverGraph?.invoke(this)
         data.forEachIndexed { index, item ->
             val donutPathData = createPathData(
                 item,

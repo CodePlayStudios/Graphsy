@@ -2,6 +2,7 @@ package com.graphsy.compose.config
 
 import android.graphics.Path.Direction
 import androidx.compose.animation.core.AnimationSpec
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import com.graphsy.compose.animation.simpleChartAnimation
 import com.graphsy.compose.models.StartAngle
 
@@ -19,5 +20,6 @@ data class DonutChartConfiguration(
     val gapAngleDegrees: StartAngle = StartAngle.ReflexAngle,
     val isLabelsEnabled: Boolean = true,
     val animation: AnimationSpec<Float> = simpleChartAnimation(),
-    val direction: Direction = Direction.CW
+    val direction: Direction = Direction.CW,
+    val drawOverGraph: (DrawScope.() -> Unit)? = null
 )

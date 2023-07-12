@@ -1,6 +1,5 @@
 package com.graphsy.compose.common
 
-import android.graphics.Path
 import com.graphsy.compose.config.DonutChartConfiguration
 import com.graphsy.compose.models.DonutData
 import com.graphsy.compose.models.DonutPathDataEntry

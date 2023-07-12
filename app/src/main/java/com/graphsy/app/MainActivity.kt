@@ -5,14 +5,20 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Divider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.unit.dp
 import com.graphsy.app.ui.theme.GraphsyTheme
+import com.graphsy.compose.common.verticalDottedLine
 import com.graphsy.compose.models.StartAngle
 import com.graphsy.compose.config.DonutChartConfiguration
 import com.graphsy.compose.donut.DonutChart
@@ -26,24 +32,28 @@ class MainActivity : ComponentActivity() {
             GraphsyTheme {
                 Box(
                     modifier = Modifier
-                        .size(width = 240.dp, height = 240.dp)
-                        .padding(12.dp),
+                        .size(width = 250.dp, height = 250.dp)
+                        .padding(16.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     DonutChart(
                         modifier = Modifier.fillMaxSize(),
                         data = set1,
                         configuration = DonutChartConfiguration(
-                            gapWidthDegrees = StartAngle.CustomAngle(5f)
+                            gapWidthDegrees = StartAngle.CustomAngle(3f)
                         )
                     )
+
                     DonutChart(
                         modifier = Modifier.fillMaxSize(),
                         data = set2,
                         configuration = DonutChartConfiguration(
-                            gapWidthDegrees = StartAngle.CustomAngle(5f),
+                            gapWidthDegrees = StartAngle.CustomAngle(3f),
                             gapAngleDegrees = StartAngle.RightAngle,
-                            direction = Path.Direction.CCW
+                            direction = Path.Direction.CCW,
+                            drawOverGraph = {
+                                verticalDottedLine()
+                            }
                         )
                     )
                 }
@@ -56,7 +66,7 @@ class MainActivity : ComponentActivity() {
         val set1 = listOf(
             DonutData(
                 masterSlice = DonutSlice.MasterSlice(
-                    circumferencePercentage = 0.50f,
+                    circumferencePercentage = 0.497f,
                     value = 8f,
                     strokeWidth = 140f,
                     color = Color.LightGray
@@ -78,8 +88,8 @@ class MainActivity : ComponentActivity() {
             ),
             DonutData(
                 masterSlice = DonutSlice.MasterSlice(
-                    circumferencePercentage = 0.50f,
-                    strokeWidth = 70f,
+                    circumferencePercentage = 0.497f,
+                    strokeWidth = 40f,
                     value = 8f,
                     color = Color.LightGray
                 ),
@@ -102,7 +112,7 @@ class MainActivity : ComponentActivity() {
         val set2 = listOf(
             DonutData(
                 masterSlice = DonutSlice.MasterSlice(
-                    circumferencePercentage = 0.50f,
+                    circumferencePercentage = 0.497f,
                     strokeWidth = 140f,
                     value = 8f,
                     color = Color.LightGray
@@ -117,14 +127,14 @@ class MainActivity : ComponentActivity() {
                         color = Color.Magenta
                     ),
                     DonutSlice.SectionSlice(
-                        value = 3.21f,
+                        value = 101f,
                         color = Color.Red
                     )
                 )
             ),
             DonutData(
                 masterSlice = DonutSlice.MasterSlice(
-                    circumferencePercentage = 0.50f,
+                    circumferencePercentage = 0.497f,
                     strokeWidth = 70f,
                     value = 8f,
                     color = Color.LightGray
@@ -146,7 +156,7 @@ class MainActivity : ComponentActivity() {
             ),
             DonutData(
                 masterSlice = DonutSlice.MasterSlice(
-                    circumferencePercentage = 0.50f,
+                    circumferencePercentage = 0.497f,
                     strokeWidth = 35f,
                     value = 8f,
                     color = Color.LightGray
@@ -168,7 +178,7 @@ class MainActivity : ComponentActivity() {
             ),
             DonutData(
                 masterSlice = DonutSlice.MasterSlice(
-                    circumferencePercentage = 0.50f,
+                    circumferencePercentage = 0.497f,
                     strokeWidth = 17.5f,
                     value = 8f,
                     color = Color.LightGray
