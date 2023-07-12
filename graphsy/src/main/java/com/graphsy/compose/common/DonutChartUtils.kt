@@ -1,5 +1,6 @@
 package com.graphsy.compose.common
 
+import android.graphics.Path
 import com.graphsy.compose.config.DonutChartConfiguration
 import com.graphsy.compose.models.DonutData
 import com.graphsy.compose.models.DonutPathDataEntry
@@ -7,16 +8,16 @@ import com.graphsy.compose.models.SectionsPathData
 import kotlin.math.max
 
 internal object DonutChartUtils {
-    fun calculatePathData(
+    fun calculateSectionsPathData(
         data: DonutData,
         configuration: DonutChartConfiguration
     ): List<DonutPathDataEntry> {
         val allEntriesAmount = data.sectionsSum
         val wholeDonutAmount = max(data.masterSlice.value, allEntriesAmount)
         val masterSegmentAmount = wholeDonutAmount * data.masterSlice.circumferencePercentage
+        val halfGap = configuration.gapWidthDegrees.angle / 2
         val wholeDonutAngle = 360f - configuration.gapWidthDegrees.angle
         val masterSegmentAngle = wholeDonutAngle * data.masterSlice.circumferencePercentage
-        val halfGap = configuration.gapWidthDegrees.angle / 2
         val startAngle = configuration.gapAngleDegrees.angle + halfGap
         return createPathDataForSections(
             SectionsPathData(

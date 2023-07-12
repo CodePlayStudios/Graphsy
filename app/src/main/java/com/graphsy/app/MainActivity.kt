@@ -34,14 +34,14 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxSize(),
                         data = set1,
                         configuration = DonutChartConfiguration(
-                            gapWidthDegrees = StartAngle.CustomAngle(1f)
+                            gapWidthDegrees = StartAngle.CustomAngle(5f)
                         )
                     )
                     DonutChart(
                         modifier = Modifier.fillMaxSize(),
                         data = set2,
                         configuration = DonutChartConfiguration(
-                            gapWidthDegrees = StartAngle.CustomAngle(1f),
+                            gapWidthDegrees = StartAngle.CustomAngle(5f),
                             gapAngleDegrees = StartAngle.RightAngle,
                             direction = Path.Direction.CCW
                         )
@@ -56,7 +56,7 @@ class MainActivity : ComponentActivity() {
         val set1 = listOf(
             DonutData(
                 masterSlice = DonutSlice.MasterSlice(
-                    circumferencePercentage = 0.49f,
+                    circumferencePercentage = 0.50f,
                     value = 8f,
                     strokeWidth = 140f,
                     color = Color.LightGray
@@ -78,7 +78,7 @@ class MainActivity : ComponentActivity() {
             ),
             DonutData(
                 masterSlice = DonutSlice.MasterSlice(
-                    circumferencePercentage = 0.49f,
+                    circumferencePercentage = 0.50f,
                     strokeWidth = 70f,
                     value = 8f,
                     color = Color.LightGray
@@ -102,7 +102,7 @@ class MainActivity : ComponentActivity() {
         val set2 = listOf(
             DonutData(
                 masterSlice = DonutSlice.MasterSlice(
-                    circumferencePercentage = 0.49f,
+                    circumferencePercentage = 0.50f,
                     strokeWidth = 140f,
                     value = 8f,
                     color = Color.LightGray
@@ -124,7 +124,7 @@ class MainActivity : ComponentActivity() {
             ),
             DonutData(
                 masterSlice = DonutSlice.MasterSlice(
-                    circumferencePercentage = 0.49f,
+                    circumferencePercentage = 0.50f,
                     strokeWidth = 70f,
                     value = 8f,
                     color = Color.LightGray
@@ -146,7 +146,7 @@ class MainActivity : ComponentActivity() {
             ),
             DonutData(
                 masterSlice = DonutSlice.MasterSlice(
-                    circumferencePercentage = 0.49f,
+                    circumferencePercentage = 0.50f,
                     strokeWidth = 35f,
                     value = 8f,
                     color = Color.LightGray
@@ -163,6 +163,28 @@ class MainActivity : ComponentActivity() {
                     DonutSlice.SectionSlice(
                         value = 3.21f,
                         color = Color(0xFF92dc7e)
+                    )
+                )
+            ),
+            DonutData(
+                masterSlice = DonutSlice.MasterSlice(
+                    circumferencePercentage = 0.50f,
+                    strokeWidth = 17.5f,
+                    value = 8f,
+                    color = Color.LightGray
+                ),
+                sections = listOf(
+                    DonutSlice.SectionSlice(
+                        value = 1.3f,
+                        color = Color.Yellow
+                    ),
+                    DonutSlice.SectionSlice(
+                        value = 1.2f,
+                        color = Color(0xFF92dc7e)
+                    ),
+                    DonutSlice.SectionSlice(
+                        value = 3.21f,
+                        color = Color(0xFFc4ec74)
                     )
                 )
             )

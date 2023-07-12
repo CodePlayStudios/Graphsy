@@ -25,7 +25,7 @@ fun DonutChart(
 ) {
     Canvas(modifier = modifier) {
         data.forEachIndexed { index, item ->
-            val donutPathData = pathData(
+            val donutPathData = createPathData(
                 item,
                 configuration
             )
@@ -72,7 +72,7 @@ private fun DrawScope.drawDonutSegment(
     )
 }
 
-private fun pathData(
+private fun createPathData(
     model: DonutData,
     config: DonutChartConfiguration
 ): DonutPathData {
@@ -80,10 +80,11 @@ private fun pathData(
     val gapAngleDegrees = config.gapAngleDegrees.angle
     val gapWidthDegrees = config.gapWidthDegrees.angle
     val backgroundLineColor = model.masterSlice.color
+    val halfGap = gapWidthDegrees / 2
 
     val wholeDonutAngle = 360f - gapWidthDegrees
     val masterSegmentAngle = wholeDonutAngle * masterProgress
-    val startAngle = gapAngleDegrees + gapWidthDegrees / 2
+    val startAngle = gapAngleDegrees + halfGap
 
     val masterPathData = DonutPathDataEntry(
         color = backgroundLineColor,
@@ -91,7 +92,7 @@ private fun pathData(
         sweepAngle = masterSegmentAngle,
         strokeWidth = model.masterSlice.strokeWidth
     )
-    val sectionsPathData = DonutChartUtils.calculatePathData(
+    val sectionsPathData = DonutChartUtils.calculateSectionsPathData(
         data = model,
         configuration = config
     )
