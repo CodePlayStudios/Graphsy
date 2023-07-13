@@ -1,19 +1,23 @@
 package com.graphsy.compose.donut
 
 import android.graphics.Path.Direction
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
+import com.graphsy.compose.animation.simpleChartAnimation
 import com.graphsy.compose.common.DonutChartUtils
 import com.graphsy.compose.config.DonutChartConfiguration
 import com.graphsy.compose.models.DonutData
 import com.graphsy.compose.models.DonutPathData
 import com.graphsy.compose.models.DonutPathDataEntry
+import com.graphsy.compose.models.SectionsPathData
 import kotlin.math.min
 
 
@@ -23,29 +27,40 @@ fun DonutChart(
     modifier: Modifier = Modifier,
     configuration: DonutChartConfiguration = DonutChartConfiguration()
 ) {
+    val donutPathData = data.map {
+        CreatePathData(
+            it,
+            configuration
+        )
+    }
+    DrawDonut(modifier = modifier, data = donutPathData, configuration.direction)
     Canvas(modifier = modifier) {
         configuration.drawOverGraph?.invoke(this)
+    }
+}
+
+
+@Composable
+private fun DrawDonut(modifier: Modifier, data: List<DonutPathData>, direction: Direction) {
+    Canvas(modifier = modifier) {
         data.forEachIndexed { index, item ->
-            val donutPathData = createPathData(
-                item,
-                configuration
-            )
+
             val size = Size(
-                min(size.width / index.inc(), size.width - item.masterSlice.strokeWidth),
-                min(size.height / index.inc(), size.height - item.masterSlice.strokeWidth),
+                min(size.width / index.inc(), size.width - item.masterPathData.strokeWidth),
+                min(size.height / index.inc(), size.height - item.masterPathData.strokeWidth),
             )
             val offset = Offset.Zero + Offset(
                 x = (this.size.width - size.width).div(2f),
                 y = (this.size.height - size.height).div(2f)
             )
             drawDonutSegment(
-                donutPathData.masterPathData,
-                configuration.direction,
+                item.masterPathData,
+                direction,
                 offset,
                 size
             )
-            donutPathData.entriesPathData.forEach { pathData ->
-                drawDonutSegment(pathData, configuration.direction, offset, size)
+            item.entriesPathData.forEach { pathData ->
+                drawDonutSegment(pathData, direction, offset, size)
             }
         }
     }
@@ -73,7 +88,8 @@ private fun DrawScope.drawDonutSegment(
     )
 }
 
-private fun createPathData(
+@Composable
+private fun CreatePathData(
     model: DonutData,
     config: DonutChartConfiguration
 ): DonutPathData {
@@ -109,3 +125,23 @@ private fun createPathData(
     return DonutPathData(masterPathData, entriesPathData)
 }
 
+
+@Composable
+fun FloatAnimation(target: Float): State<Float> {
+    return animateFloatAsState(
+        targetValue = target,
+        animationSpec = simpleChartAnimation(),
+        label = ""
+    )
+}
+
+//private fun buildDonutFlow(
+//    model: DonutData,
+//    config: DonutChartConfiguration
+//): DonutProgressValues {
+//
+//}
+//
+//private data class DonutProgressValues(
+//
+//)
