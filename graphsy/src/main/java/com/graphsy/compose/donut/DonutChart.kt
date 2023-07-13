@@ -1,13 +1,20 @@
 package com.graphsy.compose.donut
 
 import android.graphics.Path.Direction
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -17,7 +24,6 @@ import com.graphsy.compose.config.DonutChartConfiguration
 import com.graphsy.compose.models.DonutData
 import com.graphsy.compose.models.DonutPathData
 import com.graphsy.compose.models.DonutPathDataEntry
-import com.graphsy.compose.models.SectionsPathData
 import kotlin.math.min
 
 
@@ -27,24 +33,44 @@ fun DonutChart(
     modifier: Modifier = Modifier,
     configuration: DonutChartConfiguration = DonutChartConfiguration()
 ) {
+    val transitionProgress = remember(data) { Animatable(initialValue = 0f) }
+    LaunchedEffect(data) {
+        transitionProgress.animateTo(1f, animationSpec = simpleChartAnimation())
+    }
+
     val donutPathData = data.map {
-        CreatePathData(
-            it,
-            configuration
+        val sections = DonutChartUtils.calculateSectionsPathData(
+            data = it,
+            configuration = configuration
+        )
+        createDonutPathData(
+            donutUiState = buildDonutUiState(
+                model = it,
+                config = configuration,
+                sectionsPathData = sections
+            ),
+            sectionsSize = sections.size
         )
     }
-    DrawDonut(modifier = modifier, data = donutPathData, configuration.direction)
-    Canvas(modifier = modifier) {
-        configuration.drawOverGraph?.invoke(this)
-    }
+    DrawDonut(
+        modifier = modifier,
+        data = donutPathData,
+        direction = configuration.direction,
+        drawOverGraph = configuration.drawOverGraph
+    )
 }
 
 
 @Composable
-private fun DrawDonut(modifier: Modifier, data: List<DonutPathData>, direction: Direction) {
+private fun DrawDonut(
+    modifier: Modifier,
+    data: List<DonutPathData>,
+    direction: Direction,
+    drawOverGraph: (DrawScope.() -> Unit)? = null
+) {
     Canvas(modifier = modifier) {
+        drawOverGraph?.invoke(this)
         data.forEachIndexed { index, item ->
-
             val size = Size(
                 min(size.width / index.inc(), size.width - item.masterPathData.strokeWidth),
                 min(size.height / index.inc(), size.height - item.masterPathData.strokeWidth),
@@ -88,60 +114,92 @@ private fun DrawScope.drawDonutSegment(
     )
 }
 
-@Composable
-private fun CreatePathData(
-    model: DonutData,
-    config: DonutChartConfiguration
+
+private fun createDonutPathData(
+    donutUiState: DonutUiState,
+    sectionsSize: Int
 ): DonutPathData {
-    val masterProgress = model.masterSlice.circumferencePercentage
-    val gapAngleDegrees = config.gapAngleDegrees.angle
-    val gapWidthDegrees = config.gapWidthDegrees.angle
-    val backgroundLineColor = model.masterSlice.color
-    val halfGap = gapWidthDegrees / 2
+    val masterProgress = donutUiState.animatedMasterProgress.value
+    val gapAngleDegrees = donutUiState.animatedGapAngle.value
+    val gapWidthDegrees = donutUiState.animatedGapWidthDegrees.value
+    val backgroundLineColor = donutUiState.animatedBackgroundLineColor.value
+    val strokeWidth = donutUiState.animatedStrokeWidth.value
 
     val wholeDonutAngle = 360f - gapWidthDegrees
     val masterSegmentAngle = wholeDonutAngle * masterProgress
-    val startAngle = gapAngleDegrees + halfGap
+    val startAngle = gapAngleDegrees + gapWidthDegrees / 2
 
     val masterPathData = DonutPathDataEntry(
         color = backgroundLineColor,
         startAngle = startAngle,
         sweepAngle = masterSegmentAngle,
-        strokeWidth = model.masterSlice.strokeWidth
+        strokeWidth = strokeWidth
     )
-    val sectionsPathData = DonutChartUtils.calculateSectionsPathData(
-        data = model,
-        configuration = config
-    )
-    val entriesPathData = model.sections.mapIndexed { index, item ->
+    val entriesPathData = List(sectionsSize) { index ->
         DonutPathDataEntry(
-            color = item.color,
-            startAngle = sectionsPathData[index].startAngle,
-            sweepAngle = sectionsPathData[index].sweepAngle,
-            strokeWidth = model.masterSlice.strokeWidth
+            color = donutUiState.animatedColors[index].value,
+            startAngle = donutUiState.animatedStartAngles[index].value,
+            sweepAngle = donutUiState.animatedSweepAngles[index].value,
+            strokeWidth = strokeWidth
         )
     }
-
     return DonutPathData(masterPathData, entriesPathData)
 }
 
 
 @Composable
-fun FloatAnimation(target: Float): State<Float> {
+fun floatAnimationState(target: Float): State<Float> {
     return animateFloatAsState(
         targetValue = target,
-        animationSpec = simpleChartAnimation(),
+        animationSpec = tween(
+            durationMillis = 1000,
+            easing = CubicBezierEasing(0.18f, 0.7f, 0.16f, 1f)
+        ),
         label = ""
     )
 }
 
-//private fun buildDonutFlow(
-//    model: DonutData,
-//    config: DonutChartConfiguration
-//): DonutProgressValues {
-//
-//}
-//
-//private data class DonutProgressValues(
-//
-//)
+@Composable
+private fun buildDonutUiState(
+    model: DonutData,
+    config: DonutChartConfiguration,
+    sectionsPathData: List<DonutPathDataEntry>
+): DonutUiState {
+    val animatedBackgroundLineColor = animateColorAsState(
+        targetValue = model.masterSlice.color,
+        animationSpec = tween(),
+        label = ""
+    )
+    val animatedProgressColors = model.sections.map {
+        animateColorAsState(
+            targetValue = it.color,
+            animationSpec = tween(),
+            label = ""
+        )
+    }
+    return DonutUiState(
+        animatedGapAngle = floatAnimationState(target = config.gapAngleDegrees.angle),
+        animatedMasterProgress = floatAnimationState(target = model.masterSlice.circumferencePercentage),
+        animatedGapWidthDegrees = floatAnimationState(target = config.gapWidthDegrees.angle),
+        animatedStrokeWidth = floatAnimationState(target = model.masterSlice.strokeWidth),
+        animatedBackgroundLineColor = animatedBackgroundLineColor,
+        animatedStartAngles = model.sections.mapIndexed { index, _ ->
+            floatAnimationState(target = sectionsPathData[index].startAngle)
+        },
+        animatedSweepAngles = model.sections.mapIndexed { index, _ ->
+            floatAnimationState(target = sectionsPathData[index].sweepAngle)
+        },
+        animatedColors = animatedProgressColors
+    )
+}
+
+private data class DonutUiState(
+    val animatedGapAngle: State<Float>,
+    val animatedMasterProgress: State<Float>,
+    val animatedGapWidthDegrees: State<Float>,
+    val animatedStrokeWidth: State<Float>,
+    val animatedBackgroundLineColor: State<Color>,
+    val animatedStartAngles: List<State<Float>>,
+    val animatedSweepAngles: List<State<Float>>,
+    val animatedColors: List<State<Color>>
+)
