@@ -11,6 +11,8 @@ import com.graphsy.compose.models.StartAngle
  * @param gapWidthDegrees Width degree is amount gap required in master donut
  * @param gapAngleDegrees Degree used as a gap start point in donut
  * @param isLabelsEnabled Whether to show the label for each section
+ * @param direction Whether to draw clockwise or anticlockwise
+ * @param drawOverGraph any custom view needed over donut
  */
 data class DonutChartConfiguration(
     val gapWidthDegrees: StartAngle = StartAngle.CustomAngle(angle = 0f),

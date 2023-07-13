@@ -1,4 +1,6 @@
-package com.graphsy.compose.models
+package com.graphsy.compose.models.internal
+
+import com.graphsy.compose.models.DonutSlice
 
 internal data class SectionsPathData(
     val startAngle: Float,

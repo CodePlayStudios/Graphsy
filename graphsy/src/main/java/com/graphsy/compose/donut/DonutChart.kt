@@ -12,15 +12,15 @@ import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import com.graphsy.compose.common.DonutChartUtils
 import com.graphsy.compose.config.DonutChartConfiguration
 import com.graphsy.compose.models.DonutData
-import com.graphsy.compose.models.DonutPathData
-import com.graphsy.compose.models.DonutPathDataEntry
+import com.graphsy.compose.models.internal.DonutPathData
+import com.graphsy.compose.models.internal.DonutPathDataEntry
+import com.graphsy.compose.state.DonutUiState
 import kotlin.math.min
 
 
@@ -185,14 +185,3 @@ private fun buildDonutUiState(
         colors = animatedProgressColors
     )
 }
-
-private data class DonutUiState(
-    val gapAngle: State<Float>,
-    val masterProgress: State<Float>,
-    val gapWidthDegrees: State<Float>,
-    val strokeWidth: State<Float>,
-    val backgroundLineColor: State<Color>,
-    val startAngles: List<State<Float>>,
-    val sweepAngles: List<State<Float>>,
-    val colors: List<State<Color>>
-)

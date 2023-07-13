@@ -2,8 +2,8 @@ package com.graphsy.compose.common
 
 import com.graphsy.compose.config.DonutChartConfiguration
 import com.graphsy.compose.models.DonutData
-import com.graphsy.compose.models.DonutPathDataEntry
-import com.graphsy.compose.models.SectionsPathData
+import com.graphsy.compose.models.internal.DonutPathDataEntry
+import com.graphsy.compose.models.internal.SectionsPathData
 import kotlin.math.max
 
 internal object DonutChartUtils {

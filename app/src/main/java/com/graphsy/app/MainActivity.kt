@@ -68,40 +68,50 @@ class MainActivity : ComponentActivity() {
             }
         }
         Handler().postDelayed({
-
-            data1.value = data1.value.map { it.copy(sections = listOf(
-                DonutSlice.SectionSlice(
-                    value =  Random.nextFloat(),
-                    color = Color.Green
-                ),
-                DonutSlice.SectionSlice(
-                    value =  Random.nextFloat(),
-                    color = Color.Magenta
-                ),
-                DonutSlice.SectionSlice(
-                    value =  Random.nextFloat(),
-                    color = Color.Red
+            data1.value = data1.value.map {
+                it.copy(
+                    sections = listOf(
+                        DonutSlice.SectionSlice(
+                            value = Random.nextFloat(),
+                            color = Color.Green
+                        ),
+                        DonutSlice.SectionSlice(
+                            value = Random.nextFloat(),
+                            color = Color.Magenta
+                        ),
+                        DonutSlice.SectionSlice(
+                            value = Random.nextFloat(),
+                            color = Color.Red
+                        )
+                    )
                 )
-            )) }
-            data2.value = data2.value.map { it.copy(sections = listOf(
-                DonutSlice.SectionSlice(
-                    value =  Random.nextFloat(),
-                    color = Color.Green
-                ),
-                DonutSlice.SectionSlice(
-                    value =  Random.nextFloat(),
-                    color = Color.Magenta
-                ),
-                DonutSlice.SectionSlice(
-                    value =  Random.nextFloat(),
-                    color = Color.Red
+            }
+            data2.value = data2.value.map {
+                it.copy(
+                    sections = listOf(
+                        DonutSlice.SectionSlice(
+                            value = Random.nextFloat(),
+                            color = Color(randomColor)
+                        ),
+                        DonutSlice.SectionSlice(
+                            value = Random.nextFloat(),
+                            color = Color(randomColor)
+                        ),
+                        DonutSlice.SectionSlice(
+                            value = Random.nextFloat(),
+                            color = Color(randomColor)
+                        )
+                    )
                 )
-            )) }
-        },600L)
+            }
+        }, 600L)
 
     }
 
     companion object {
+        val randomColor
+            get() = (Math.random() * 16777215).toInt() or (0xFF shl 24)
+
         val default = listOf(
             DonutSlice.SectionSlice(
                 value = 0f,
