@@ -41,76 +41,68 @@ class MainActivity : ComponentActivity() {
                     contentAlignment = Alignment.Center
                 ) {
                     val data1 by data1.collectAsState()
+                    val configuration = DonutChartConfiguration(
+                        gapWidthDegrees = StartAngle.CustomAngle(3f)
+                    )
                     DonutChart(
                         modifier = Modifier
                             .size(width = 250.dp, height = 250.dp),
                         data = data1,
-                        configuration = DonutChartConfiguration(
-                            gapWidthDegrees = StartAngle.CustomAngle(3f)
-                        )
+                        configuration = configuration
                     )
                     val data2 by data2.collectAsState()
+                    val configuration2 = DonutChartConfiguration(
+                        gapWidthDegrees = StartAngle.CustomAngle(3f),
+                        gapAngleDegrees = StartAngle.RightAngle,
+                        direction = Path.Direction.CCW,
+                        drawOverGraph = {
+                            verticalDottedLine()
+                        }
+                    )
                     DonutChart(
                         modifier = Modifier
                             .size(width = 250.dp, height = 250.dp),
                         data = data2,
-                        configuration = DonutChartConfiguration(
-                            gapWidthDegrees = StartAngle.CustomAngle(3f),
-                            gapAngleDegrees = StartAngle.RightAngle,
-                            direction = Path.Direction.CCW,
-                            drawOverGraph = {
-                                verticalDottedLine()
-                            }
-                        )
+                        configuration = configuration2
                     )
 
                 }
             }
         }
+
         Handler().postDelayed({
             data1.value = data1.value.map {
                 it.copy(
-                    sections = listOf(
-                        DonutSlice.SectionSlice(
-                            value = Random.nextFloat(),
-                            color = Color.Green
-                        ),
-                        DonutSlice.SectionSlice(
-                            value = Random.nextFloat(),
-                            color = Color.Magenta
-                        ),
-                        DonutSlice.SectionSlice(
-                            value = Random.nextFloat(),
-                            color = Color.Red
-                        )
-                    )
+                    sections = items
                 )
             }
             data2.value = data2.value.map {
                 it.copy(
-                    sections = listOf(
-                        DonutSlice.SectionSlice(
-                            value = Random.nextFloat(),
-                            color = Color(randomColor)
-                        ),
-                        DonutSlice.SectionSlice(
-                            value = Random.nextFloat(),
-                            color = Color(randomColor)
-                        ),
-                        DonutSlice.SectionSlice(
-                            value = Random.nextFloat(),
-                            color = Color(randomColor)
-                        )
-                    )
+                    sections = items
                 )
             }
         }, 600L)
-
     }
 
     companion object {
         val randomColor
             get() = (Math.random() * 16777215).toInt() or (0xFF shl 24)
+
+        val items
+            get() = listOf(
+                DonutSlice.SectionSlice(
+                    value = Random.nextFloat(),
+                    color = Color(randomColor)
+                ),
+                DonutSlice.SectionSlice(
+                    value = Random.nextFloat(),
+                    color = Color(randomColor)
+                ),
+                DonutSlice.SectionSlice(
+                    value = Random.nextFloat(),
+                    color = Color(randomColor)
+                )
+            )
 
         val default = listOf(
             DonutSlice.SectionSlice(
@@ -161,6 +153,15 @@ class MainActivity : ComponentActivity() {
                 masterSlice = DonutSlice.MasterSlice(
                     circumferencePercentage = 0.497f,
                     strokeWidth = 70f,
+                    value = 1f,
+                    color = Color.LightGray
+                ),
+                sections = default
+            ),
+            DonutData(
+                masterSlice = DonutSlice.MasterSlice(
+                    circumferencePercentage = 0.497f,
+                    strokeWidth = 30f,
                     value = 1f,
                     color = Color.LightGray
                 ),
