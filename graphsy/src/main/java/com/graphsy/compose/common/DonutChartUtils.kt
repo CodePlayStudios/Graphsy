@@ -1,10 +1,17 @@
 package com.graphsy.compose.common
 
+import android.graphics.Path
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.text.TextLayoutResult
+import androidx.compose.ui.unit.center
 import com.graphsy.compose.config.DonutChartConfiguration
 import com.graphsy.compose.models.DonutData
 import com.graphsy.compose.models.internal.DonutPathDataEntry
 import com.graphsy.compose.models.internal.SectionsPathData
+import kotlin.math.cos
 import kotlin.math.max
+import kotlin.math.sin
 
 internal object DonutChartUtils {
     fun calculateSectionsPathData(
@@ -62,4 +69,30 @@ internal object DonutChartUtils {
 
             return entriesPathData
         }
+
+    internal val Float.degreeToAngle
+        get() = (this * Math.PI / 180f).toFloat()
+
+    internal fun DrawScope.calculateLabelPosition(
+        textMeasureResult: TextLayoutResult,
+        direction: Path.Direction,
+        pathData: DonutPathDataEntry
+    ): Offset {
+        val textCenter = textMeasureResult.size.center
+        val factor = if (direction == Path.Direction.CCW) -1 else 1
+        val angleInRadians =
+            ((pathData.startAngle + pathData.sweepAngle / 2).degreeToAngle) * factor
+        val radius = size.width / 2f
+        val innerRadius = radius - pathData.strokeWidth
+
+        return Offset(
+            -textCenter.x + center.x + (innerRadius + pathData.strokeWidth) * cos(
+                angleInRadians
+            ),
+            -textCenter.y + center.y + (innerRadius + pathData.strokeWidth) * sin(
+                angleInRadians
+            )
+        )
+    }
 }
+

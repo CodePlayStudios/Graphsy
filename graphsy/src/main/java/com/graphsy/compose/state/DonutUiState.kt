@@ -2,6 +2,8 @@ package com.graphsy.compose.state
 
 import androidx.compose.runtime.State
 import androidx.compose.ui.graphics.Color
+import com.graphsy.compose.models.DonutData
+import com.graphsy.compose.models.internal.DonutPathData
 
 internal data class DonutUiState(
     val gapAngle: State<Float>,
@@ -11,5 +13,6 @@ internal data class DonutUiState(
     val backgroundLineColor: State<Color>,
     val startAngles: List<State<Float>>,
     val sweepAngles: List<State<Float>>,
-    val colors: List<State<Color>>
+    val colors: List<State<Color>>,
+    val pathData: DonutData
 )
