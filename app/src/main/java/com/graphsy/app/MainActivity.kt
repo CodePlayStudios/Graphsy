@@ -57,15 +57,14 @@ class MainActivity : ComponentActivity() {
                         direction = Path.Direction.CCW,
                         drawOverGraph = {
                             verticalDottedLine()
-                        }
+                        },
+                        isLabelsEnabled = false
                     )
                     DonutChart(
                         modifier = Modifier
                             .size(width = 250.dp, height = 250.dp),
-                        data = data2,
-                        configuration = configuration2
+                        data = data2
                     )
-
                 }
             }
         }

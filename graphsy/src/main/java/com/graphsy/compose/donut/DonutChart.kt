@@ -61,6 +61,7 @@ fun DonutChart(
         modifier = modifier,
         data = donutPathData,
         direction = configuration.direction,
+        isLabelEnabled = configuration.isLabelsEnabled,
         drawOverGraph = configuration.drawOverGraph
     )
 }
@@ -72,7 +73,8 @@ private fun DrawDonut(
     modifier: Modifier,
     data: List<DonutPathData>,
     direction: Direction,
-    drawOverGraph: (DrawScope.() -> Unit)? = null
+    drawOverGraph: (DrawScope.() -> Unit)? = null,
+    isLabelEnabled: Boolean
 ) {
     val textMeasurer = rememberTextMeasurer()
     Canvas(modifier = modifier) {
@@ -95,7 +97,9 @@ private fun DrawDonut(
             item.entriesPathData.forEach { pathData ->
                 drawDonutSegment(pathData, direction, offset, size)
                 item.entriesPathData[index].labelText?.run {
-                    drawLabel(pathData, size, direction, textMeasurer, this)
+                    if (isLabelEnabled) {
+                        drawLabel(pathData, size, direction, textMeasurer, this)
+                    }
                 }
             }
         }
@@ -139,14 +143,13 @@ private fun DrawScope.drawLabel(
             fontSize = 10.sp,
             color = Color.White,
             background = pathData.color
-        ),
+        )
     )
     val textCenter = textMeasureResult.size.center
     val factor = if (direction == Direction.CCW) -1 else 1
     val angleInRadians = ((pathData.startAngle + pathData.sweepAngle / 2).degreeToAngle) * factor
 
-    val offset =
-     Offset(
+    val offset = Offset(
         -textCenter.x + center.x + (innerRadius + pathData.strokeWidth) * cos(
             angleInRadians
         ),
