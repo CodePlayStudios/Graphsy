@@ -43,20 +43,6 @@ android {
 }
 
 dependencies {
-//    implementation(libs.core.ktx)
-//    implementation(libs.appcompat)
-//    implementation(libs.activity.compose)
-//    implementation(platform(libs.compose.bom))
-//    implementation(libs.androidx.material3)
-//    implementation(libs.androidx.ui.tooling.preview)
-//    testImplementation(libs.junit)
-//    androidTestImplementation(libs.androidx.test.ext.junit)
-//    androidTestImplementation(libs.espresso.core)
-//    androidTestImplementation(platform(libs.compose.bom))
-//    debugImplementation(libs.androidx.ui.tooling)
-
-
-
     implementation(platform(libs.compose.bom))
     implementation(libs.ui)
     implementation(libs.androidx.ui.tooling.preview)
