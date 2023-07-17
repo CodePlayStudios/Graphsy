@@ -13,5 +13,5 @@ internal data class DonutUiState(
     val startAngles: List<State<Float>>,
     val sweepAngles: List<State<Float>>,
     val colors: List<State<Color>>,
-    val pathData: DonutData
+    val donutData: DonutData
 )

@@ -190,7 +190,7 @@ private fun createDonutPathData(
             startAngle = donutUiState.startAngles[index].value,
             sweepAngle = donutUiState.sweepAngles[index].value,
             strokeWidth = strokeWidth,
-            labelText = "%.2f".format(donutUiState.pathData.sections[index].value * 100)
+            labelText = "%.2f".format(donutUiState.donutData.sections[index].value * 100)
         )
     }
     return DonutPathData(masterPathData, entriesPathData)
@@ -241,6 +241,6 @@ private fun buildDonutUiState(
             floatAnimationState(target = sectionsPathData[index].sweepAngle)
         },
         colors = animatedProgressColors,
-        pathData = donutData
+        donutData = donutData
     )
 }
