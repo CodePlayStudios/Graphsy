@@ -1,4 +1,4 @@
-package com.graphsy.compose.models
+package com.graphsy.compose.models.donut
 
 import com.graphsy.compose.common.DonutChartUtils.sumByFloat
 

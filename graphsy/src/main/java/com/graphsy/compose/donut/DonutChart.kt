@@ -28,9 +28,9 @@ import androidx.compose.ui.unit.sp
 import com.graphsy.compose.common.DonutChartUtils
 import com.graphsy.compose.common.DonutChartUtils.degreeToAngle
 import com.graphsy.compose.config.DonutChartConfiguration
-import com.graphsy.compose.models.DonutData
-import com.graphsy.compose.models.internal.DonutPathData
-import com.graphsy.compose.models.internal.DonutPathDataEntry
+import com.graphsy.compose.models.donut.DonutData
+import com.graphsy.compose.donut.models.DonutPathData
+import com.graphsy.compose.donut.models.DonutPathDataEntry
 import com.graphsy.compose.state.DonutUiState
 import kotlin.math.cos
 import kotlin.math.min

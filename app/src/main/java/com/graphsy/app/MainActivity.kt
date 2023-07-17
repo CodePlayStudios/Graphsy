@@ -19,8 +19,8 @@ import com.graphsy.app.ui.theme.GraphsyTheme
 import com.graphsy.compose.common.verticalDottedLine
 import com.graphsy.compose.config.DonutChartConfiguration
 import com.graphsy.compose.donut.DonutChart
-import com.graphsy.compose.models.DonutData
-import com.graphsy.compose.models.DonutSlice
+import com.graphsy.compose.models.donut.DonutData
+import com.graphsy.compose.models.donut.DonutSlice
 import com.graphsy.compose.models.StartAngle
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlin.random.Random

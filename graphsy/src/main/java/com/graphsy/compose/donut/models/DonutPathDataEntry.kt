@@ -1,4 +1,4 @@
-package com.graphsy.compose.models.internal
+package com.graphsy.compose.donut.models
 
 import androidx.compose.ui.graphics.Color
 

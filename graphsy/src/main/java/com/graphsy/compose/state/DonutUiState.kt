@@ -2,7 +2,7 @@ package com.graphsy.compose.state
 
 import androidx.compose.runtime.State
 import androidx.compose.ui.graphics.Color
-import com.graphsy.compose.models.DonutData
+import com.graphsy.compose.models.donut.DonutData
 
 internal data class DonutUiState(
     val gapAngle: State<Float>,
